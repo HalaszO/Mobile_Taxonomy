@@ -7,3 +7,4 @@ Required input: text files containing the measured membrane voltage values for e
 
 To use it, first run the script called "convertIVfromascii". This is a script for converting raw ASCII-format txt files into .mat metadata files. It also filters out any corrupted text files and selects the usable in-vitro measurement data files.
 The second one ("NGtax_MAIN") is the main analysis script. It extracts certain features (see the attached document called "Field descriptions") solely based on the measurement data and saves them into .mat files. It also creates a summary for each cell and plots some of the features (e.g. number of action potentials relative to the injected current). 
+The datasum2table is an conversion script, designed to write the contents of the 'datasum.mat' summary into a .dat-format file.
