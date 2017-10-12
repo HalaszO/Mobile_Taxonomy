@@ -9,7 +9,9 @@ for i=1:iv.sweepnum
         RS=RS+data.pass.rs(i);
         RScount=RScount+1;
     end
-    if  data.HH.apnum(i)>1 & isfield(data.HH.(['sweep',num2str(i)]),'interspike') & data.HH.(['sweep',num2str(i)]).interspike~=0 & data.HH.(['sweep',num2str(i)]).apmaxtime(1)<.15
+    if  data.HH.apnum(i)>1 & isfield(data.HH.(['sweep',num2str(i)]),'interspike') & size(data.HH.(['sweep',num2str(i)]).interspike)>=2 & data.HH.(['sweep',num2str(i)]).apmaxtime(1)<iv.segment(1)/1000+.15
+        % Reminder: the 1st element of interspike is the mean, hence the
+        % array length matches that of the AP arrays
         if data.HH.(['sweep',num2str(i)]).interspike(2)<70
             datasum.burstspikes(i)=2;
             while datasum.burstspikes(i)+1<=data.HH.apnum(i) && or(data.HH.(['sweep',num2str(i)]).interspike(datasum.burstspikes(i)+1)<data.HH.(['sweep',num2str(i)]).interspike(datasum.burstspikes(i))*2, data.HH.(['sweep',num2str(i)]).interspike(datasum.burstspikes(i)+1)<20)
