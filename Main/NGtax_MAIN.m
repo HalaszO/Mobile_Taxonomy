@@ -1,21 +1,22 @@
 % clear all
 % close all
 %%%%%%%%%%%%
-% Don't forget to add folders to path!!!
+% Don't forget to add folders to path!
 %%%%%%%%%%%%
 
 
 dothedatasum = 1; %conditional variables
-dotheanalysis = 0; 
-
+dotheanalysis = 1; 
+%addpath('C:\Users\Oliver\Desktop\Egyetem\7\Szakdoga');
 % Setting source paths
 sourcepath = uigetdir('','Location of MATLABdata library');
 ivpath = [sourcepath, filesep 'IV'];
 datapath = [sourcepath,filesep 'data'];
 picturepath_iv = [sourcepath, filesep 'pictures' filesep 'IV'];
-commfile = [sourcepath, filesep 'current_file.meta'];
+%logfile = [sourcepath, filesep 'Log.meta'];
 
-% Setting some basic stuff
+
+% Setting some basic values
 minsweepnum = 6; % Min number of sweeps required
 v0max = -.02; % Deliberately chosen possible max value of the baseline
 holdingmin = -500; 
@@ -29,6 +30,7 @@ cd(metadata_dir);
 disp(sourcepath)
 temp = dir;
 metafiles = [];
+%logFile = fopen(logfile,'w');
 
 % Checks if contents of the directory are files or subfolders
 % If file then append to metafiles
@@ -53,7 +55,7 @@ for metafilenum = 1:length(metafiles)
         setupname = char(setupnames(setupnum));
         i = 0;
         while i < size(GoodIV_struct.(setupname),2) 
-            % Going through the RECORDS (e.g. 1*21 -> 21 records within the struct)
+            % Going through the file records
             % Record.field contains the values!
             
             i = i+1;            
@@ -109,14 +111,25 @@ for metafilenum = 1:length(metafiles)
                                     %%Incorporated into .mHH
                                     datasum.(recdate).(cellname)= calculateelfiz_new(iv.(recdate).(cellname),data.(recdate).(cellname));
                                     plotiv(cellname, iv.(recdate), datasum.(recdate), data.(recdate), 1, 1000);
-                                    saveas(gcf,[picturepath_iv,pathvar,'/',recdate,'_',cellname,'_halol.fig']);
-                                    saveas(gcf,[picturepath_iv,pathvar,'/',recdate,'_',cellname,'_halol.jpg']);
-
+                                    if ~exist([picturepath_iv,pathvar],'dir') 
+                                        mkdir([picturepath_iv,pathvar]); 
+                                    end
+                                    saveas(gcf,[picturepath_iv,pathvar,filesep,recdate,'_',cellname,'_halol.fig']);
+                                    saveas(gcf,[picturepath_iv,pathvar,filesep,recdate,'_',cellname,'_halol.png']);
+%                                    spikestoDelete = data.(recdate).(cellname).HH.NumofDeletedSpikes;
+%                                    for sptd = 1:length(spikestoDelete)
+ %                                       if ~isempty(spikestoDelete(sptd)) && spikestoDelete(sptd) ~= 0
+ %                                           fprintf(logFile, 'From %s%s %d sweep %d spikes were deleted\n',recdate,cellname,sptd,spikestoDelete(sptd));
+  %                                      end
+  %                                  end
                                 end
                             end
                         end
                         if exist('data','var');
-                            save([datapath,pathvar,'/','data_iv_',fname], 'data', 'iv');
+                            if ~exist([datapath,pathvar],'dir') 
+                                mkdir([datapath,pathvar]);
+                            end
+                            save([datapath,pathvar,filesep,'data_iv_',fname], 'data', 'iv');
                             clear data
                         end
                         clear iv
@@ -140,9 +153,9 @@ for metafilenum = 1:length(metafiles)
                             datasum.(recdate).(cellname)= calculateelfiz_new(temp.iv.(recdate).(cellname),temp.data.(recdate).(cellname));
                             datasum.(recdate).(cellname).pathandfname={[datapath,pathvar],[filesep,'data_iv_',fname]};
                             datasum.(recdate).(cellname).timesincemidnight=GoodIV_struct.(setupname)(1,i).timestart(ii);
-                            plotiv(cellname, temp.iv.(recdate), datasum.(recdate), temp.data.(recdate), 1, 1000);
-                            saveas(gcf,[picturepath_iv,pathvar,filesep,recdate,'_',cellname,'_halol.fig']);
-                            saveas(gcf,[picturepath_iv,pathvar,filesep,recdate,'_',cellname,'_halol.jpg']);
+                            %plotiv(cellname, temp.iv.(recdate), datasum.(recdate), temp.data.(recdate), 1, 1000);
+                            %saveas(gcf,[picturepath_iv,pathvar,filesep,recdate,'_',cellname,'_halol.fig']);
+                            %saveas(gcf,[picturepath_iv,pathvar,filesep,recdate,'_',cellname,'_halol.jpg']);
                         end
                     end
                 end
@@ -157,3 +170,5 @@ end
 if dothedatasum==1
     save([datapath,filesep,'datasum'],'datasum');
 end
+
+%fclose(logFile);
