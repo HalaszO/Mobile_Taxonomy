@@ -40,7 +40,7 @@ end
     par0 = [0.06 0.01 1e-3*cstep 0.1 -0.06 -0.06+3e-4*cstep];
     lb = [0.1 0.001 -0.3*ones(1,ntr) 0.05 -Inf*ones(1,ntr+1)];
     ub = [1 0.1 zeros(1,ntr) 0.2 Inf*ones(1,ntr+1)];
-    options = optimset('Display','iter','TolFun',1e-8,'MaxIter',100,'MaxFunEvals',1e6);
+    options = optimset('Display','iter','TolFun',1e-8,'MaxIter',30,'MaxFunEvals',1e6);
 
     [bestpars,~,~,~,~] = lsqnonlin(@diffsagallb2,par0,lb,ub,options);
 

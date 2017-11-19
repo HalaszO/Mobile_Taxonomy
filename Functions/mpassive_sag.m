@@ -55,7 +55,7 @@ else
 
     % Reminder: All happens within the radius of the assumed pulse start
     if deriv_mode == 1
-        pulse_start = start_radius; % A bit weird
+        pulse_start = start_radius; 
     end
     if tauold-start_radius > 0
         pulse_start = pulse_start+tauold-start_radius+1+floor(hundredmicsstep);
@@ -87,7 +87,7 @@ for sweep=1:iv.sweepnum;
     dvrs=v0-vrs;
     dvin=vrs-vhyp;
     
-    % PLOTTING
+    % PLOTTING, this is done through the plotiv.mat by default, hence disabled here 
     if plotresults==1
         figure
         subplot(1,3,1) 

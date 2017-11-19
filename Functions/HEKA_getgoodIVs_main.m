@@ -126,7 +126,7 @@ for setupnum=1:length(setupnames)
         end
         progressbar(i/size(rawivfnames.(setupname),1));
     end
-    
+        
     save([sourcepath,filesep 'metadata' filesep ,setupname,'.mat'],'GoodIVs');
     GoodIVs=rmfield(GoodIVs,setupname);
 end

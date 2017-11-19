@@ -22,7 +22,7 @@ for sweep = 1:iv.sweepnum;
     
    % apmaskfirst = zeros(size(voltage_values));
 %     apmaskfirst(find(y+dvrs(sweep)>0))=1;
-    apmaskfirst = voltage_values+dvrs(sweep) > 0; 
+    apmaskfirst = voltage_values+dvrs(sweep) > 0;  % AP DETECTION THRESHOLD IS 0 mV
     [apmask, apnum] = bwlabelhomemade(apmaskfirst);
     %%%apmask(find(y>0.011))=1;
     %%%[apmask, apnum] = bwlabel(apmask);
@@ -227,9 +227,13 @@ for sweep = 1:iv.sweepnum;
             data.(['sweep',num2str(sweep)]).compfail=[];
             
         end
+        
         if apnum==0
             data=rmfield(data,['sweep',num2str(sweep)]);
         end
+        data.NumofDeletedSpikes(sweep) = length(spikestokill);
+        
+        
         %%%%%%%%%%%%%%%% DELETING BAD SPIKES
         for ind=1:apnum
             if ind>1

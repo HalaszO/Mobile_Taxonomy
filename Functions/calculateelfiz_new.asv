@@ -404,7 +404,6 @@ if any(data.HH.apnum,2)
     fieldstoremove = {'noiselevel', 'filterednoiselevel', 'sampleinterval','ramp','rheobaseramp', 'bursting', 'steadyahpslowwidth', 'steadyahpslowampl',...
         'ahpslowampl', 'ahpslowwidth', 'apnumfromreobase', 'apreduce', 'burstinterval'...
         'adpampl', 'adpwidth', 'steadyadpampl', 'steadyadpwidth', 'taunoldfail1'};
-    datasum = rmfield(datasum, fieldstoremove);   
 end
- 
+datasum = rmfield(datasum, fieldstoremove);    
 end

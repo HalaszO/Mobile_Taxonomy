@@ -1,4 +1,7 @@
 function plotiv(fname, iv, datasum, data, add, filter) %add==1: plussz pontok az IV-ken!!
+    
+set(0,'DefaultFigureVisible','off')
+    
 iv=iv.(fname);
 datasum=datasum.(fname);
 data=data.(fname);
@@ -63,13 +66,13 @@ if add==1
                 plot(data.HH.(['sweep',num2str(sweep)]).oldapendtime(i),data.HH.(['sweep',num2str(sweep)]).oldapend(i)*1000,'ko');
                 plot(data.HH.(['sweep',num2str(sweep)]).apendtime(i),data.HH.(['sweep',num2str(sweep)]).apend(i)*1000,'kx');
                 plot( data.HH.(['sweep',num2str(sweep)]).ahptime(i),  data.HH.(['sweep',num2str(sweep)]).ahpv(i)*1000, 'go');
-                plot( data.HH.(['sweep',num2str(sweep)]).ahptimeslow(i),  data.HH.(['sweep',num2str(sweep)]).ahpvslow(i)*1000, 'ro');
-                plot( data.HH.(['sweep',num2str(sweep)]).adptime(i),  data.HH.(['sweep',num2str(sweep)]).adpv(i)*1000, 'g*');
-                plot( data.HH.(['sweep',num2str(sweep)]).adptimeslow(i),  data.HH.(['sweep',num2str(sweep)]).adpvslow(i)*1000, 'r*');
+                %plot( data.HH.(['sweep',num2str(sweep)]).ahptimeslow(i),  data.HH.(['sweep',num2str(sweep)]).ahpvslow(i)*1000, 'ro');
+                %plot( data.HH.(['sweep',num2str(sweep)]).adptime(i),  data.HH.(['sweep',num2str(sweep)]).adpv(i)*1000, 'g*');
+                %plot( data.HH.(['sweep',num2str(sweep)]).adptimeslow(i),  data.HH.(['sweep',num2str(sweep)]).adpvslow(i)*1000, 'r*');
             end
-            if datasum.burstspikes(sweep) >0
-                plot(data.HH.(['sweep',num2str(sweep)]).apmaxtime(1:datasum.burstspikes(sweep)),data.HH.(['sweep',num2str(sweep)]).apmax(1:datasum.burstspikes(sweep))*1000,'kx');
-            end
+%             if datasum.burstspikes(sweep) >0
+%                 plot(data.HH.(['sweep',num2str(sweep)]).apmaxtime(1:datasum.burstspikes(sweep)),data.HH.(['sweep',num2str(sweep)]).apmax(1:datasum.burstspikes(sweep))*1000,'kx');
+%             end
             if isfield(data.HH, 'ramp') && size(data.HH.ramp,1)>sweep-1
                plot(iv.time,(data.HH.ramp(sweep,1)*iv.time +data.HH.ramp(sweep,2))*1000,'r')
                % Might not be very useful
@@ -97,13 +100,13 @@ if add==1
                 plot(data.HH.(['sweep',num2str(sweep)]).oldapendtime(i),data.HH.(['sweep',num2str(sweep)]).oldapend(i)*1000,'ko');
                 plot(data.HH.(['sweep',num2str(sweep)]).apendtime(i),data.HH.(['sweep',num2str(sweep)]).apend(i)*1000,'kx');
                 plot( data.HH.(['sweep',num2str(sweep)]).ahptime(i),  data.HH.(['sweep',num2str(sweep)]).ahpv(i)*1000, 'go');
-                plot( data.HH.(['sweep',num2str(sweep)]).ahptimeslow(i),  data.HH.(['sweep',num2str(sweep)]).ahpvslow(i)*1000, 'ro');
-                plot( data.HH.(['sweep',num2str(sweep)]).adptime(i),  data.HH.(['sweep',num2str(sweep)]).adpv(i)*1000, 'g*');
-                plot( data.HH.(['sweep',num2str(sweep)]).adptimeslow(i),  data.HH.(['sweep',num2str(sweep)]).adpvslow(i)*1000, 'r*');
+                %plot( data.HH.(['sweep',num2str(sweep)]).ahptimeslow(i),  data.HH.(['sweep',num2str(sweep)]).ahpvslow(i)*1000, 'ro');
+                %plot( data.HH.(['sweep',num2str(sweep)]).adptime(i),  data.HH.(['sweep',num2str(sweep)]).adpv(i)*1000, 'g*');
+                %plot( data.HH.(['sweep',num2str(sweep)]).adptimeslow(i),  data.HH.(['sweep',num2str(sweep)]).adpvslow(i)*1000, 'r*');
             end
-            if datasum.burstspikes(sweep) >0
-                plot(data.HH.(['sweep',num2str(sweep)]).apmaxtime(1:datasum.burstspikes(sweep)),data.HH.(['sweep',num2str(sweep)]).apmax(1:datasum.burstspikes(sweep))*1000,'kx');
-            end
+%             if datasum.burstspikes(sweep) >0
+%                 plot(data.HH.(['sweep',num2str(sweep)]).apmaxtime(1:datasum.burstspikes(sweep)),data.HH.(['sweep',num2str(sweep)]).apmax(1:datasum.burstspikes(sweep))*1000,'kx');
+%             end
         end
     end
     if exist('v5','var')
