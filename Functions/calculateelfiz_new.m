@@ -34,10 +34,10 @@ datasum.sampleinterval=1/data.pass.samplingrate*1000000;
 datasum.RS=RS/RScount;
 datasum.sagsold=data.pass.rsag./data.pass.rin_old(1:length(data.pass.rsag));
 datasum.sags = data.pass.rsag/data.pass.rin_new;
-datasum.firstsag=datasum.sags(1);
-datasum.firstrelsag_new = data.pass.relsag_new(1);
-datasum.firstsagdelay_new = data.pass.sagdelay_new(1);
-datasum.firstvsag_new = data.pass.vsag_new(1);
+datasum.lastsag=datasum.sags(end);
+datasum.lastrelsag_new = data.pass.relsag_new(end);
+datasum.lastsagdelay_new = data.pass.sagdelay_new(end);
+datasum.lastvsag_new = data.pass.vsag_new(end);
 
 for i=2:4
     if length(datasum.sags)>=i && std(datasum.sags(1:i))<.1
@@ -75,6 +75,8 @@ if datasum.reobasesweep>0
     datasum.apreduce=1-datasum.apnum(end)/datasum.maxapnum;
 else
     datasum.reobase=NaN;
+    datasum.fIslope = NaN;
+    datasum.apreduce = NaN;
 end
 
 datasum.tau_new=data.pass.tau_new;
@@ -163,6 +165,18 @@ if any(data.HH.apnum>0)
         if datasum.compfail>0
             datasum.compfail=1;
         end
+    else
+        datasum.threshold=NaN;
+        datasum.apampl=NaN;
+        datasum.aprisetime=NaN;
+        datasum.aphw=NaN;
+        
+        datasum.apwidth=NaN;
+        datasum.apstartenddiff=NaN;
+        datasum.dvmax=NaN;
+        datasum.dvmaxv=NaN;
+        datasum.dvmin=NaN;
+        datasum.dvminv = NaN;
     end
     
     
@@ -395,9 +409,52 @@ else
     datasum.apamplchange=NaN;
     datasum.apamplchangevsapnum=NaN;
     datasum.ingerelhetoseg=NaN;
-    
+    datasum.steadyAPnum = NaN;
+    datasum.goodsteadyAPnum = NaN;
     datasum.steadysweep=NaN;
     datasum.reobasesweep=NaN;
+    datasum.threshold=NaN;
+    datasum.ahpampl=NaN;
+    datasum.ahpwidth=NaN;
+    datasum.adpampl=NaN;
+    datasum.adpwidth=NaN;
+    datasum.ahpslowampl=NaN;
+    datasum.ahpslowwidth=NaN;
+    datasum.apampl=NaN;
+    datasum.aprisetime=NaN;
+    datasum.aphw=NaN;
+    datasum.apwidth=NaN;
+    datasum.apstartenddiff=NaN;
+    datasum.dvmax=NaN;
+    datasum.dvmaxv=NaN;
+    datasum.dvmin=NaN;
+    datasum.dvminv = NaN;
+    datasum.firstapmaxtime = NaN;
+    datasum.compfail = NaN;
+    datasum.steadyinterval = NaN;
+    datasum.steadyaphw = NaN;
+            datasum.steadyapampl = NaN;
+            datasum.steadythreshold = NaN;
+            datasum.steadythresholddiff = NaN;
+            datasum.steadyapwidth = NaN;
+            datasum.steadyapstartenddiff = NaN;
+            datasum.steadyahpampl = NaN;
+            datasum.steadyahpwidth = NaN;
+            datasum.steadyadpampl = NaN;
+            datasum.steadyadpwidth = NaN;
+            datasum.steadyahpslowampl = NaN;
+            datasum.steadyahpslowwidth = NaN;
+            datasum.ahpwidthnew=NaN;
+        datasum.ahpamplnew=NaN;
+        datasum.accomodation=0;
+        datasum.ISIchange=0;
+        datasum.ISIchangevsapnum=0;
+        datasum.ramp=0;
+        datasum.rheobaseramp=0;
+        datasum.excitability=NaN;
+        datasum.rampnew=NaN;
+        datasum.rheobaserampnew=NaN;
+        
     
 end
 if any(data.HH.apnum,2)
