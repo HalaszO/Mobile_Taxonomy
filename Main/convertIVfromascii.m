@@ -2,6 +2,7 @@ clear all
 close all
 %%%%%%%%%%%%
 % Don't forget to add folders to path!!!
+% Important to add a subfolder in IV folder
 %%%%%%%%%%%%
 %addpath('C:\Users\Oliver\Downloads\mobile_taxonomy_170410');
 addpath('C:\Users\Oliver\Desktop\Egyetem\7\Szakdoga');
@@ -17,14 +18,18 @@ addpath('C:\Users\Oliver\Desktop\Egyetem\7\Szakdoga');
 %savepath='C:\Users\Oliver\Downloads\mobile_taxonomy_170410\mobile_taxonomy\MATLABdata_Zsolt_Newest\IV\PV_step_default';
 %sourcepath='C:\Users\Oliver\Downloads\mobile_taxonomy_170410\mobile_taxonomy\MATLABdata_Zsolt_Newest';
 
-asciipath = 'C:\Users\Oliver\Desktop\Egyetem\7\Szakdoga\HBP_data_all_grouped\OTHER\STEP HBP';
-savepath='C:\Users\Oliver\Desktop\Egyetem\7\Szakdoga\HBP_processed_all_grouped_new\IV\OTHER\STEP_LONG';
-sourcepath='C:\Users\Oliver\Desktop\Egyetem\7\Szakdoga\HBP_processed_all_grouped_new';
+
+% asciipath = 'C:\Users\Oliver\Desktop\Egyetem\7\Szakdoga\HBP_data_all_grouped_szakdoga\PV\STEP HBP';
+% savepath='C:\Users\Oliver\Desktop\Egyetem\7\Szakdoga\tmp\IV\OTHER\STEP_HBP';
+% sourcepath='C:\Users\Oliver\Desktop\Egyetem\7\Szakdoga\tmp';
+asciipath = 'C:\Users\Oliver\Desktop\Egyetem\7\Szakdoga\Elphys_all_fixed\Other\STEP_LONG';
+savepath='C:\Users\Oliver\Desktop\Egyetem\7\Szakdoga\Elphys_all_fixed_data_again\IV\Other'; %Important to add a subfolder in IV folder
+sourcepath='C:\Users\Oliver\Desktop\Egyetem\7\Szakdoga\Elphys_all_fixed_data_again';
 
 % STEP LONG:
-stepcurrent=[+10,-10,20,-20,30,-30,40,-40,50,-50,60,-60,70,-70,80,-80,90,-90,100,-100,150,200,250,300,400,500,600];
+current=[+10,-10,20,-20,30,-30,40,-40,50,-50,60,-60,70,-70,80,-80,90,-90,100,-100,150,200,250,300,400,500,600];
 %STEP HBP:
-%stepcurrent=[+20,-20,40,-40,60,-60,80,-80,100,-100,120,-120,140,-140,160,-160,180,-180,200,220,240,260,280,300,400,500,600];
+%current=[+20,-20,40,-40,60,-60,80,-80,100,-100,120,-120,140,-140,160,-160,180,-180,200,220,240,260,280,300,400,500,600];
 sampleinterval = 0.0002;	
 
 Folder_Checker_Taxonomy(sourcepath,savepath);
@@ -42,7 +47,7 @@ for i=1:length(fnames)
     fname=char(fnames(i));
     fnamefull=char(fnames(i));
 %     if any(strcmp(expnames,fnamefull)) & ~isempty(strfind(char(stepnames(find(strcmp(expnames,fnamefull)))),'Small'))
-        current=stepcurrent;
+       
 %     else
 %         current=stepcurrent;
 %     end
@@ -67,12 +72,13 @@ for i=1:length(fnames)
     clear temp;
     temp=dlmread([asciipath,filesep,fnamefull]);
     temp=temp/1000;
-    while mean(temp(1,:))<-0.3
-        temp=temp/10;
-    end
+%     while mean(temp(1,:))<-0.3
+%         temp=temp/10;
+%     end
     current=current(1:size(temp,2));
-    % Sorting of current values (arbitary convention)
-    [iv.(cellname).current ,currentorder] = sort(current);
+    
+    
+    iv.(cellname).current = current;
     iv.(cellname).timertime=iv.(cellname).current*0;
     currstodelete=[];
     currdeleteimmediately=[];
@@ -92,12 +98,12 @@ for i=1:length(fnames)
     if ~isempty(currstodelete)
         currentorder(1:currstodelete(end))=[];
     end
-    for ii=1:length(currentorder)
-        iv.(cellname).(['v',num2str(ii)])=temp(:,currentorder(ii));
+    for ii=1:length(current)
+        iv.(cellname).(['v',num2str(ii)])=temp(:,ii);
     end
     
     if ~isempty(currstodelete)
-        iv.(cellname).current=current(currentorder);
+        iv.(cellname).current=current(current);
     end
     iv.(cellname).realcurrent=iv.(cellname).current;
     iv.(cellname).bridged=1;

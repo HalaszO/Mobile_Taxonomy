@@ -1,11 +1,11 @@
-% clear all
-% close all
+clear all
+close all
 %%%%%%%%%%%%
 % Don't forget to add folders to path!
 %%%%%%%%%%%%
 
 
-dothedatasum = 1; %conditional variables
+dothedatasum = 0; %conditional variables
 dotheanalysis = 1; 
 %addpath('C:\Users\Oliver\Desktop\Egyetem\7\Szakdoga');
 % Setting source paths
@@ -86,10 +86,11 @@ for metafilenum = 1:length(metafiles)
                         
                         for ii=1:length(cellnames)
                             cellname=char(cellnames(ii));
-                            if isnan(GoodIV_struct.(setupname)(1,i).holding(ii)) || isempty(GoodIV_struct.(setupname)(1,i).v0) || GoodIV_struct.(setupname)(1,i).v0(ii)>v0max ...
-                                    || GoodIV_struct.(setupname)(1,i).holding(ii)<holdingmin || GoodIV_struct.(setupname)(1,i).holding(ii)>holdingmax || ...
-                                    GoodIV_struct.(setupname)(1,i).sweepnum(ii)<minsweepnum || GoodIV_struct.(setupname)(1,i).firstcurrent(ii)>0 || GoodIV_struct.(setupname)(1,i).lastcurrent(ii)<=0
-                                disp([cellname,' -- fail']);
+                            if 0
+%                                 isnan(GoodIV_struct.(setupname)(1,i).holding(ii)) || isempty(GoodIV_struct.(setupname)(1,i).v0) || GoodIV_struct.(setupname)(1,i).v0(ii)>v0max ...
+%                                     || GoodIV_struct.(setupname)(1,i).holding(ii)<holdingmin || GoodIV_struct.(setupname)(1,i).holding(ii)>holdingmax || ...
+%                                     GoodIV_struct.(setupname)(1,i).sweepnum(ii)<minsweepnum || GoodIV_struct.(setupname)(1,i).lastcurrent(ii)<=0
+%                                 disp([cellname,' -- fail']);
                             else
                                 templength=[];
                                 for tempi=1:iv.(recdate).(cellname).sweepnum
@@ -110,12 +111,12 @@ for metafilenum = 1:length(metafiles)
                                     %%data.(recdate).(cellname)=offsetvoltage(data.(recdate).(cellname),iv.(recdate).(cellname)); 
                                     %%Incorporated into .mHH
                                     datasum.(recdate).(cellname)= calculateelfiz_new(iv.(recdate).(cellname),data.(recdate).(cellname));
-                                    plotiv(cellname, iv.(recdate), datasum.(recdate), data.(recdate), 1, 1000);
-                                    if ~exist([picturepath_iv,pathvar],'dir') 
-                                        mkdir([picturepath_iv,pathvar]); 
-                                    end
-                                    saveas(gcf,[picturepath_iv,pathvar,filesep,recdate,'_',cellname,'_halol.fig']);
-                                    saveas(gcf,[picturepath_iv,pathvar,filesep,recdate,'_',cellname,'_halol.png']);
+%                                     plotiv(cellname, iv.(recdate), datasum.(recdate), data.(recdate), 1, 1000);
+%                                     if ~exist([picturepath_iv,pathvar],'dir') 
+%                                         mkdir([picturepath_iv,pathvar]); 
+%                                     end
+%                                     saveas(gcf,[picturepath_iv,pathvar,filesep,recdate,'_',cellname,'_halol.fig']);
+%                                     saveas(gcf,[picturepath_iv,pathvar,filesep,recdate,'_',cellname,'_halol.png']);
 %                                    spikestoDelete = data.(recdate).(cellname).HH.NumofDeletedSpikes;
 %                                    for sptd = 1:length(spikestoDelete)
  %                                       if ~isempty(spikestoDelete(sptd)) && spikestoDelete(sptd) ~= 0
@@ -168,7 +169,7 @@ for metafilenum = 1:length(metafiles)
     progressbar(metafilenum/length(metafiles));
 end
 if dothedatasum==1
-    save([datapath,filesep,'datasum'],'datasum');
+    save([datapath,filesep,'datasum_PV'],'datasum');
 end
 
 %fclose(logFile);

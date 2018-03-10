@@ -10,6 +10,10 @@ clear all
 %preprocessed_folder='/data/Userek/marci/analizis/_neuron taxonomy/FS_vs_AAC/processed_DATA_IV/';
 %preprocessed_folder='C:\Users\Vivien\Downloads\mobile_taxonomy\MATLABdata_HBP/data/HBP_long/';
 preprocessed_folder = uigetdir('','Location of processed data files');
+% [datasumname, pathname] = uigetfile('','Choose datasum file');
+% tmp = [pathname, datasumname];
+% datasum = load(tmp);
+% datasum = datasum.datasum;
 makeimagesofclusters=1;
 getallvalues=1;
 plotandsaveivs=0;
@@ -69,7 +73,7 @@ end
 
 [nrows,ncols]=size(out);
 
-outfilename='alldata.dat';
+outfilename='alldata_Other.dat';
 outfile=fopen(outfilename, 'w');
 
 for col=1:ncols-1,
