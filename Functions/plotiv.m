@@ -1,6 +1,5 @@
 function plotiv(fname, iv, datasum, data, add, filter) %add==1: plussz pontok az IV-ken!!
     
-set(0,'DefaultFigureVisible','off')
     
 iv=iv.(fname);
 datasum=datasum.(fname);

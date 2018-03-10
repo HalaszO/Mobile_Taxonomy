@@ -18,8 +18,8 @@ end
 % bridge balance
 if isfield(iv,'bridged') && iv.bridged==1
     time_minus_stim = abs(time_values - iv.segment(1)/1000);
-    pulse_start = find(time_minus_stim == min(time_minus_stim)) - hundredmicsstep; %???? Rakerdezni       
-    % Meg miert nem: (taustart) pulse_start = find(x == iv.segment(1)/1000)?
+    pulse_start = find(time_minus_stim == min(time_minus_stim)) - hundredmicsstep;        
+    % min: in case the exact time value doesn't exist due to the time step
     
 else
 %%%%%%%% Searching for RS jump START
@@ -67,10 +67,20 @@ end
 
 time_values = iv.time;
 
+time_minus_half_stim = abs(time_values-0.5*iv.segment(1)/1000);
+v0_avg_start = find(time_minus_stim==min(time_minus_half_stim))+1;
+time_minus_point95_stim = abs(time_values-0.95*iv.segment(1)/1000);
+v0_ang_end = find(time_minus_stim==min(time_minus_point95_stim))+1;
+
+time_minus_stim = abs(time_values - (iv.segment(1)+iv.segment(2))/1000); % instead of start, the end of the stimulus
+vhypend = find(time_minus_stim == min(time_minus_stim)); % finding the end of the stimulus (index)
+vhypstart = find(time_values < time_values(vhypend)-lasthypsectocount,1,'last');
+
+
 for sweep=1:iv.sweepnum; 
     Voltage_values = iv.(['v',num2str(sweep)]);
-    v0 = mean(Voltage_values((pulse_start-5*hundredmicsstep):(pulse_start-3*hundredmicsstep))); %!!
-    vrs = mean(Voltage_values(pulse_start)); % Why use mean? pulse_start is a single index    %!!
+    v0 = mean(Voltage_values(v0_avg_start : v0_ang_end)); %!!
+    vrs = Voltage_values(pulse_start); 
     if iv.current(sweep) == 0; % 0 current???
         fNorm = 1000 / (sampling_freq/2);               %# normalized cutoff frequency
         [b,a] = butter(6, fNorm, 'low');  %# 6th order filter   Transfer function
@@ -79,9 +89,6 @@ for sweep=1:iv.sweepnum;
         data.noiselevel = mean(abs(Voltage_values-temp))*1000;
         data.filterednoiselevel = mean(abs(yfilt-temp))*1000;
     end
-    time_minus_stim = abs(time_values - (iv.segment(1)+iv.segment(2))/1000); % instead of start, the end of the stimulus
-    vhypend = find(time_minus_stim == min(time_minus_stim)); % finding the end of the stimulus (index)
-    vhypstart = find(time_values < time_values(vhypend)-lasthypsectocount,1,'last');
     vhyp=mean(Voltage_values(vhypstart:vhypend));
     
     dvrs=v0-vrs;
@@ -113,7 +120,6 @@ for sweep=1:iv.sweepnum;
         end
         
         startof = find(time_values > sum(iv.segment(1:2))/1000,1,'first'); % first index after the stimulus ends 
-        %finishof = start_radius(time_values)-round(iv.segment(3)/10000*sampling_freq); % Index of a singleton????
         finishof = sum(iv.segment(1:3))/1000*sampling_freq;
         placeof = startof + find(Voltage_values(startof:finishof) == max(Voltage_values(startof:finishof)),1,'first')-1;
         
@@ -172,7 +178,7 @@ for sweep=1:iv.sweepnum;
     data.vhyp(sweep)=vhyp;
     data.dvrs(sweep)=dvrs;
     data.dvin(sweep)=dvin;
-    data.rs(sweep)=-dvrs/(iv.current(sweep))*1000000;
+    data.rs(sweep)=-dvrs/(iv.current(sweep))*1000000; %Abs?
     data.rin_old(sweep)=-dvin/(iv.current(sweep))*1000000;
     
     if showprogress==1

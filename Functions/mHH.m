@@ -69,14 +69,14 @@ for sweep = 1:iv.sweepnum;
         yav = mean([voltage_values(2:end)';voltage_values(1:end-1)'])'; % for each dy there's a mean voltage  size: 1x(v_v-1)
         xav = mean([time_values(2:end)';time_values(1:end-1)'])'; % for each dy there's a mean time value
         % NEEDS REVISING FOR ARRAY SIZE
-        interspike = [0];
+        interspike = 0; %[]
         for ind = 1:apnum
             apmax = max(voltage_values(apmask==ind)); %searching for AP max
             apmax=apmax(1);
             if find((voltage_values == apmax) .* apmask==ind,1,'first')>length(time_values)-50
                 apnum=apnum-1; % if the max values are constant, this isn't an AP but an error
             elseif find((voltage_values==apmax) .* apmask==ind,1,'first')<5 && apnum==1
-                apnum=apnum-1;
+                apnum=0; % Probably detecting initial noise/impedance voltage jumps
             elseif find((voltage_values==apmax).*apmask==ind,1,'first')<5
             % no commands to execute
                 
@@ -157,7 +157,7 @@ for sweep = 1:iv.sweepnum;
                 data.(['sweep',num2str(sweep)]).dvmin(ind)=dy0(thresh_index+dvminlength-4);
                 data.(['sweep',num2str(sweep)]).dvminv(ind)=yav(thresh_index+dvminlength-4);
                 data.(['sweep',num2str(sweep)]).dvmint(ind)=xav(thresh_index+dvminlength-4);
-                data.(['sweep',num2str(sweep)]).compfail(ind)=max(dy0((find(time_values==apmaxtime)+1):apend));
+                data.(['sweep',num2str(sweep)]).postApexMaxDer(ind)=max(dy0((find(time_values==apmaxtime)+1):apend));
 
             end
             
@@ -168,7 +168,8 @@ for sweep = 1:iv.sweepnum;
     end
     if apnum>0
         %%%%%%%%%%%%%%%% DELETING BAD SPIKES
-        spikestokill=find(data.(['sweep',num2str(sweep)]).halfwidth<.05 | data.(['sweep',num2str(sweep)]).halfwidth>20 | isnan(data.(['sweep',num2str(sweep)]).halfwidth) | data.(['sweep',num2str(sweep)]).apamplitude<10);
+        spikestokill=find(data.(['sweep',num2str(sweep)]).halfwidth<.05 | data.(['sweep',num2str(sweep)]).halfwidth>20 | isnan(data.(['sweep',num2str(sweep)]).halfwidth) | data.(['sweep',num2str(sweep)]).apamplitude<0);
+        % HERE
         % If the spike amplitude or halfwidth is not right, the spike is to
         % be discarded
         if length(spikestokill)>100
@@ -197,7 +198,7 @@ for sweep = 1:iv.sweepnum;
         data.(['sweep',num2str(sweep)]).dvmin(spikestokill)=[];
         data.(['sweep',num2str(sweep)]).dvminv(spikestokill)=[];
         data.(['sweep',num2str(sweep)]).dvmint(spikestokill)=[];
-        data.(['sweep',num2str(sweep)]).compfail(spikestokill)=[];
+        data.(['sweep',num2str(sweep)]).postApexMaxDer(spikestokill)=[];
         apnum=apnum-length(spikestokill);
         if apnum>400 % inprobable amount of APs
             apnum=0;
@@ -224,7 +225,7 @@ for sweep = 1:iv.sweepnum;
             data.(['sweep',num2str(sweep)]).dvmin=[];
             data.(['sweep',num2str(sweep)]).dvminv=[];
             data.(['sweep',num2str(sweep)]).dvmint=[];
-            data.(['sweep',num2str(sweep)]).compfail=[];
+            data.(['sweep',num2str(sweep)]).postApexMaxDer=[];
             
         end
         

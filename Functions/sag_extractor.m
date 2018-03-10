@@ -56,7 +56,7 @@ end
  %   bestparsall=[tau1.*ones(ntr,1) tau2.*ones(ntr,1) d1' t0.*ones(ntr,1) v0.*ones(ntr,1) v1'];
 
    tsagmax = t0 + tau1 .* tau2 ./ (tau1 - tau2) .* log(-(v0-v1-d1)./d1.*tau1./tau2);
-     sagmin = double_exp(tsagmax,d1,t0,tau1,tau2,v0,v1);
+%     sagmin = double_exp(tsagmax,d1,t0,tau1,tau2,v0,v1);
 %    vssamp=v1-v0;
 %    vtramp=sagmin-v0;
     
@@ -86,8 +86,8 @@ end
     sagdelayc = tsagmaxc - 0.1;
     rinc=1e-6*cstep'\vssampc';
     
-    relsagamp_med=median(relsagampc(6:end));
-    sagdelay_med=1000*median(sagdelayc(6:end));
+%    relsagamp_med=median(relsagampc(6:end));
+%    sagdelay_med=1000*median(sagdelayc(6:end));
     
     
     % Approximate single exponential fit to early part of step response
@@ -100,7 +100,7 @@ end
     ub = [1 Inf*ones(1,7)];
     options = optimset('Display','iter','TolFun',1e-8,'MaxIter',1e3,'MaxFunEvals',1e6);
 
-    [bestpars2,~,residual,~,~] = lsqnonlin(@diffsagpasb2,par0,lb,ub,options);
+    [bestpars2,~,~,~,~] = lsqnonlin(@diffsagpasb2,par0,lb,ub,options);
 %
 %     for i=1:5,
 %         r2=sum(residual((i-1)*length(t)+1:i*length(t)).^2);
