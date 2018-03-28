@@ -466,7 +466,7 @@ function [datasum] = calculateelfiz_new(iv,data)
     %% Features that either do not work or have been deemed irrelevant for the analysis
     fieldstoremove = {'noiselevel', 'filterednoiselevel', 'sampleinterval','ramp','rheobaseramp', 'bursting', 'steadyahpslowwidth', 'steadyahpslowampl',...
         'ahpslowampl', 'ahpslowwidth', 'apnumfromreobase', 'apreduce', 'burstinterval'...
-        'adpampl', 'adpwidth', 'steadyadpampl', 'steadyadpwidth', 'taunoldfail1', 'reobasesweep','maxapsweep'};
+        'adpampl', 'adpwidth', 'steadyadpampl', 'steadyadpwidth', 'taunoldfail1', 'reobasesweep','maxapsweep', 'tauold1', 'rebound'};
     if any(data.HH.apnum,2)
         datasum = rmfield(datasum, fieldstoremove);
     else
@@ -476,5 +476,5 @@ function [datasum] = calculateelfiz_new(iv,data)
             end
         end
     end
-    
+datasum = orderfields(datasum);    
 end
