@@ -355,7 +355,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%AHP �S ADP KERS�S
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%begin, de nem
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%mindenhol
-if any(data.apnum>0) && iv.current(end)>=0
+if any(data.apnum>0) 
     reobasesweep=find(data.apnum>0,1);
 %     if isempty(reobasesweep)
 %         reobasesweep=2;
