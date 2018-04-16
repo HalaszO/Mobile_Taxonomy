@@ -73,7 +73,7 @@ end
 
 [nrows,ncols]=size(out);
 
-outfilename='alldata_Other.dat';
+outfilename='alldata.dat';
 outfile=fopen(outfilename, 'w');
 
 for col=1:ncols-1,

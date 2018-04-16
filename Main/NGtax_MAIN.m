@@ -1,4 +1,4 @@
-clear all
+%clear all
 close all
 %%%%%%%%%%%%
 % Don't forget to add folders to path!

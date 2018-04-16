@@ -1,4 +1,4 @@
-%clear all
+clear all
 close all
 %%%%%%%%%%%%
 % Don't forget to add folders to path!!!
@@ -35,7 +35,7 @@ sourcepath='C:\Users\Oliver\Desktop\Egyetem\7\Szakdoga\Makara';
 %current=[+20,-20,40,-40,60,-60,80,-80,100,-100,120,-120,140,-140,160,-160,180,-180,200,220,240,260,280,300,400,500,600];
 %
 current = [0.05, 0.1, 0.15, 0.2, 0.25, -0.05, -0.1, -0.15, -0.2, -0.25];
-sampleinterval = 0.0002;	
+sampleinterval = 0.00002;	
 
 Folder_Checker_Taxonomy(sourcepath,savepath);
 
