@@ -71,31 +71,33 @@ for setupnum=1:length(setupnames)
         tempp=dir([rawivdir,filesep,rawivfname]);
         temp=load([rawivdir,filesep,rawivfname]);
         ivnames=fieldnames(temp.iv);
-        neededivnames={};
+        neededivnames=ivnames;
+        ivname=char(ivnames(1));
         %%%% megadjuk a legnagyobb std-vel rendelkező csatornák nevét
-        while ~isempty(ivnames)
-            ivname=char(ivnames(1));
-            group=str2double(ivname(strfind(ivname,'g')+1:strfind(ivname,'_s')-1));
-            series=str2double(ivname(strfind(ivname,'_s')+2:strfind(ivname,'_c')-1));
-            channel=str2double(ivname(strfind(ivname,'_c')+2:end));
-            sameseries=ivnames(strncmp(ivname,ivnames,strfind(ivname,'_c')));
-            vstd=[];
-            for tempi=1:length(sameseries)
-                ivname=char(sameseries(tempi));
-                tempvstd=[];
-                for tempj=1:temp.iv.(ivname).sweepnum;
-                    if isfield(temp.iv.(ivname),(['v',num2str(tempj)]))
-                        tempvstd(tempj)=std(temp.iv.(ivname).(['v',num2str(tempj)]));
-                    end
-                end
-                vstd(tempi)=mean(tempvstd);
-                ivnames(1)=[];
-            end
-            if ~isnan(max(vstd))
-                neededivnames{length(neededivnames)+1}=char(sameseries(find(vstd==max(vstd),1,'first')));
-            end
-            
-        end
+%         while ~isempty(ivnames)
+%             
+%             group=str2double(ivname(strfind(ivname,'g')+1:strfind(ivname,'_s')-1));
+%             series=str2double(ivname(strfind(ivname,'_s')+2:strfind(ivname,'_c')-1));
+%             channel=str2double(ivname(strfind(ivname,'_')+2:end));
+%             sameseries=ivnames(strncmp(ivname,ivnames,end));
+%             vstd=[];
+%             for tempi=1:length(sameseries)
+%                 ivname=char(sameseries(tempi));
+%                 tempvstd=[];
+%                 for tempj=1:temp.iv.(ivname).sweepnum;
+%                     if isfield(temp.iv.(ivname),(['v',num2str(tempj)]))
+%                         tempvstd(tempj)=std(temp.iv.(ivname).(['v',num2str(tempj)]));
+%                     end
+%                 end
+%                 vstd(tempi)=mean(tempvstd);
+%                 ivnames(1)=[];
+%             end
+%             if ~isnan(max(vstd))
+%                 neededivnames{length(neededivnames)+1}=char(sameseries(find(vstd==max(vstd),1,'first')));
+%             end
+%             
+%             
+%         end
         %%%% megadjuk a legnagyobb std-vel rendelkező csatornák nevét
         if ~isempty(neededivnames)
             GoodIVs.(setupname)(i).ivfile.lastmodify=tempp.date;
