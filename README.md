@@ -9,3 +9,5 @@ To use it, first run the script called "convertIVfromascii". This is a script fo
 The second one ("NGtax_MAIN") is the main analysis script. It extracts certain features (see the attached document called "Feature list") solely based on the measurement data and saves them into .mat files. It also creates a summary for each cell and plots some of the features (e.g. number of action potentials relative to the injected current). 
 The datasum2table is script designed to write the contents of the 'datasum' (cell level reduction/selection of the data through the function called "calculateelfiz_new.mat") summary into an .xls readable file.
 The feature plotter reads the resulting files, and plots the feature values for each celltype for every feature. 
+
+<b>This repository was used in my bachelor thesis and is no longer actively developed.</b>
